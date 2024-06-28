@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    .new_lable {
+      color: black;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 1px;
+    }
+
+    .crossBtn {
+      margin-left: 6px;
+      border-radius: 50%;
+      padding: 3px !important;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+
+      </div>
+      <div class="content-body">
+
+        <section id="multiple-column-form">
+          <div class="row">
+            <div class="col-md-12 col-12">
+              <div class="card-body">
+                <section id="basic-horizontal-layouts">
+                  <div class="row justify-content-center">
+                    <!-- First Card: Property Details -->
+                    <div class="col-md-12 col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">Property Details</h4>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                          <form class="form form-vertical">
+                            <div class="row">
+                              <div class="col-md-6 col-12">
+                                <!-- User Name -->
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="first-name-vertical">User Name</label>
+                                  <input type="text" id="first-name-vertical" class="form-control" name="fname" value="<%= requestDetails?.user?.name %>" disabled>
+                                </div>
+                                <!-- Property Name -->
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="email-id-vertical">Property Name</label>
+                                  <input type="text" id="email-id-vertical" class="form-control" name="email-id" value="<%= requestDetails?.property?.title %>" disabled>
+                                </div>
+                                <!-- Property Type -->
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="contact-info-vertical">Property Type</label>
+                                  <input type="text" id="contact-info-vertical" class="form-control" name="contact" value="<%= requestDetails?.property?.property_type %>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                <!-- Location -->
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="password-vertical">Location</label>
+                                  <input type="text" id="password-vertical" class="form-control" name="contact" value="<%= requestDetails?.property?.location %>" disabled>
+                                </div>
+                                <!-- Area -->
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="password-vertical">Area</label>
+                                  <input type="text" id="password-vertical" class="form-control" name="contact" value="<%= requestDetails?.property?.area %>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-md-12 col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="password-vertical">Description</label>
+                                  <textarea name="" id="" cols="30" rows="10" class="form-control" style="width: 100%;" disabled><%= requestDetails?.property?.description %></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-12 ">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">Request Details</h4>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                          <form class="form form-vertical">
+                            <div class="row">
+                              <div class="col-md-6 col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="first-name-vertical">Date</label>
+                                  <input type="text" id="first-name-vertical" class="form-control" name="fname" value="<%= requestDetails?.date %>" disabled>
+                                </div>
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="contact-info-vertical">Total Amount</label>
+                                  <input type="text" id="contact-info-vertical" class="form-control" name="contact" value="$<%= requestDetails?.total_amount %>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="password-vertical">Time</label>
+                                  <input type="text" id="password-vertical" class="form-control" name="contact" value="<%- moment(requestDetails.time, 'HH:mm:ss').format('LT') %>" disabled>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                          <h4 class="mb-1 text-dark mt-2">Selected Services</h4>
+                          <hr>
+                          <div class="row justify-content-center">
+                            <div class="col-md-12 col-12 mt-2">
+                              <div class="row" id="table-head">
+                                <div class="col-12">
+                                  <div class="card">
+                                    <div class="table-responsive">
+                                      <table class="table" id="myTable">
+                                        <tbody>
+                                          <% getServiceData.forEach((data, i) => {%>
+                                          <tr>
+                                            <td>
+                                              <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" checked disabled>
+                                              </div>
+                                            </td>
+                                            <td><%= data?.service.service_name %></td>
+                                            <td>$<%= data?.service.price %></td>
+                                            <td>
+                                              <% if (data.service_file) { %>
+                                              <a href="/uploads/<%= data.service_file %>" target="_blank">
+                                                <% if(data.service_file_type == 1){%>
+                                                <img src="/app-assets/images/pdf.png" title="<%= data.service_file %>" alt="Icon" class="icon-img" height="30px" width="30px">
+                                                <%}else{%>
+                                                <img src="/app-assets/images/video64.png" title="<%= data.service_file %>" alt="Icon" class="icon-img" height="30px" width="30px">
+                                                <% } %>
+                                              </a>
+                                              <button type="button" class="btn btn-outline-danger crossBtn" onclick="removeFile('<%= data.id %>')">
+                                                <img src="/app-assets/images/cross.png" title="Remove document" alt="Icon" class="icon-img" height="15px" width="15px">
+                                              </button>
+                                              <% } else { %>
+                                              <!-- <form action="/upload-doc" method="post" enctype="multipart/form-data"> -->
+                                              <input type="hidden" name="service_id" value="<%= data.service_id %>">
+                                              <input type="hidden" name="request_id" value="<%= data.request_id %>">
+                                              <input type="hidden" name="id" value="<%= data.id %>">
+                                              <div class="input-group">
+                                                <input type="file" id="service_file" name="service_file" class="form-control" required>
+                                                <button type="submit" class="btn btn-primary" onclick="uploadFile('<%= data.id %>')">Upload</button>
+                                              </div>
+                                              <div id="fileErrorMessage_<%= data.id %>" style="color: red; margin-top: 5px;"></div>
+                                              <!-- </form> -->
+                                              <% } %>
+                                            </td>
+
+                                          </tr>
+                                          <%})%>
+                                          <div class="loader_compo" id="image_loder" style="display: none;">
+                                          <img src="/app-assets/images/loader.gif" title="Remove document" alt="Icon"  class="icon-img" height="50px" width="50px">
+                                        </div>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </section>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+  <%- include('../common/footer') %>
+
+</body>
+<!-- END: Body-->
+<script>
+  $(window).on('load', function() {
+    if (feather) {
+      feather.replace({
+        width: 14,
+        height: 14
+      });
+    }
+  })
+</script>
+
+<script>
+  function removeFile(id) {
+
+    $.ajax({
+      url: '/remove-file',
+      type: 'post',
+      data: {
+        id: id
+      },
+
+      success: function(data) {
+        window.location.reload();
+      }
+    })
+
+  }
+</script>
+
+<script>
+  function uploadFile(id) {
+    const fileInput = document.getElementById('service_file');
+    // Check if any file is selected
+    if (fileInput.files.length > 0) {
+      $("#image_loder").css("display", "flex");
+      const file = fileInput.files[0];
+      const formData = new FormData();
+
+      formData.append('docFile', file);
+      formData.append('id', id);
+
+      $.ajax({
+        url: '/upload-doc',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          window.location.reload();
+        },
+        error: function(error) {
+          console.error('Error uploading file:', error);
+        }
+      });
+    } else {
+      const errorMessage = document.getElementById('fileErrorMessage_' + id);
+      errorMessage.textContent = 'Please select a file.';
+    }
+  }
+</script>
+
+
+</html>

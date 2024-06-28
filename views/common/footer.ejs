@@ -1,0 +1,120 @@
+<footer class="footer footer-static footer-light">
+  <p class="clearfix mb-0"><span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT &copy; <script>
+        document.write(new Date().getFullYear());
+      </script><a class="ms-25" href="https://www.cqlsys.com/" target="_blank">Cqlsys Technologies Pvt. Ltd</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span></p>
+</footer>
+<!-- <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button> -->
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+<!-- BEGIN: Vendor JS-->
+<script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+<!-- BEGIN Vendor JS-->
+
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/moment.min.js"></script>
+<script src="/../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+<script src="/../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+<script src="/../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+<script src="/../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+<script src="/../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js"></script>
+<!-- END: Page Vendor JS-->
+
+<!-- BEGIN: Theme JS-->
+<script src="../../../app-assets/js/core/app-menu.js"></script>
+<script src="../../../app-assets/js/core/app.js"></script>
+<!-- END: Theme JS-->
+
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+<script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
+<!-- END: Page JS-->
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.30.1/moment.min.js"></script>
+<script>
+  setTimeout(function() {
+    $("div.msg").fadeOut();
+  }, 2000);
+</script>
+
+
+<script>
+  function updateStatus() {
+    $.ajax({
+      type: 'post',
+      url: '/notificationStatus',
+      data: {},
+      success: function(data) {
+        // window.location.reload();
+        $("#notiCount").html("")
+        $("#notiCount").append(0)
+      }
+    });
+  }
+</script>
+<script>
+  var socket = io();
+  socket.emit('notification', {
+    userId: 1
+  });
+
+
+
+  socket.on('notification', (adminNotification) => {
+    var spanValue = document.getElementById("notiCount");
+    const msgCount = adminNotification.length;
+    spanValue.innerHTML = msgCount;
+
+    let listItem = document.getElementById('notificationItem');
+    let newListItem = document.createElement('div');
+    newListItem.className = "scrollable-container media-list ps ps--active-y";
+
+    if (msgCount === 0) {
+      listItem.innerHTML = '<p class="text-center mt-1">No notifications</p>';
+    } else {
+      adminNotification.forEach((data) => {
+        let notiList = `
+      
+          <div class="list-item d-flex align-items-start">
+            <div class="me-1">
+               <div><img src="../../../app-assets/images/bullet.png" alt="avatar" class="bullet"></div> 
+            </div>
+            <div class="list-item-body flex-grow-1">
+    <p class="media-heading">
+        <span class="fw-bolder">
+            ${data.notification_type === 1 ? 'You have a new service request.' :
+              data.notification_type === 2 ? 'Contact Us' :
+              data.notification_type === 4 ? 'Service request updated' :
+              data.notification_type === 3 ? 'You have a new message' :
+              'Unknown Notification Type'}
+        </span>
+    </p>
+    <small class="notification-text">${data.message}</small>
+    </div>
+    <small class="notification-time">${data.createdAt}</small>
+
+          </div>
+
+      `
+        newListItem.innerHTML = newListItem.innerHTML + notiList;
+      });
+      listItem.innerHTML = newListItem.innerHTML;
+    }
+
+    let timeElements = document.querySelectorAll('.notification-time');
+
+    timeElements.forEach((timeElement) => {
+      let time = timeElement.textContent;
+      const formattedTime = moment(time).format('lll')
+      timeElement.innerHTML = formattedTime;
+    });
+
+  });
+</script>
+
+<script>
+
+</script>

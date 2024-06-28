@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    th,
+    td {
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+      </div>
+      <div class="content-body">
+        <div class="row" id="table-head">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Users</h4>
+              </div>
+              <hr>
+              <div class="table-responsive">
+                <table class="table" id="myTable">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone No.</th>
+                      <th>Location</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let i=1 %>
+                    <% for(let j in users){%>
+                    <tr>
+                      <td><%= i++ %></td>
+                      <td>
+                        <img src="/uploads/<%= users[j].image%>" onerror="this.src='/app-assets/images/avatars/1.png'" class="me-75 rounded-circle" height="60" width="60" alt="React">
+                      </td>
+
+                      <td>
+                        <%= users[j]?.name %>
+                      </td>
+                      <td> <%= users[j]?.email %></td>
+                      <td><%= users[j]?.country_code %> <%= users[j]?.mobile %></td>
+                      <td><%= users[j]?.location.length > 30 ? users[j]?.location.substring(0, 30) + '...' : users[j]?.location %></td>
+                      <td>
+                        <div class="d-flex flex-column">
+                          <div class="form-check form-check-primary form-switch">
+                            <input type="checkbox" class="form-check-input" onclick="status(this)" id="<%= users[j].id %>" <%= users[j].status=='1'? 'checked':'' %>>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <a href="/user/property/<%= users[j].id %>" class="btn btn-primary" title="Property"><i data-feather='home'></i></a>
+                        <a href="/users/view/<%= users[j].id %>" class="btn btn-primary" title="View"><i data-feather='eye'></i></a>
+                      </td>
+                    </tr>
+                    <%}%>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+  <%- include('../common/footer') %>
+                    <script>
+                      $(window).on('load', function() {
+                        if (feather) {
+                          feather.replace({
+                            width: 14,
+                            height: 14
+                          });
+                        }
+                      })
+                    </script>
+</body>
+<!-- END: Body-->
+<script>
+  $(document).ready(function() {
+    $('#myTable').DataTable();
+  });
+</script>
+
+<script>
+  const status = (val) => {
+    let id = val.id;
+    console.log(val.checked);
+    if (val.checked == true) {
+      var status = 1;
+    } else {
+      status = 0;
+    }
+
+    $.ajax({
+      type: 'post',
+      url: '/status',
+      data: {
+        status: status,
+        id: val.id
+      },
+
+      success: function(data) {
+        if (data) {
+          val.checked == false
+        } else {
+          val.checked == true
+        }
+        window.location.reload();
+      }
+    })
+  }
+</script>
+
+</html>

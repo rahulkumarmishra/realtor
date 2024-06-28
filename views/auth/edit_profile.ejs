@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    .img-thumbnail {
+      padding: 0.25rem;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 50%;
+      max-width: 100%;
+      height: 17rem;
+      width: 18rem;
+    }
+
+    .new_lable {
+      color: black;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+
+    ::-webkit-file-upload-button {
+      display: none;
+    }
+
+    ::file-selector-button {
+      display: none;
+    }
+
+    input[type="file"] {
+      color: transparent;
+    }
+
+    .fe-24 {
+      position: absolute;
+      top: 292px;
+      left: 232px;
+      color: #ffffff;
+      border: 2px solid #878181fc;
+      border-radius: 50%;
+      background: #000000c9;
+    }
+
+    .camera_icon {
+      height: 3rem;
+      width: 3rem;
+      padding: 9px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+
+      </div>
+      <div class="content-body">
+
+        <section id="multiple-column-form">
+          <div class="row">
+
+            <div class="col-md-12 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <!-- <a href="/back-page" class="btn btn-primary" title="Go Back">
+                    <i class="feather icon-arrow-left"></i>
+                  </a> -->
+                  <h4 class="card-title">Admin Profile</h4>
+                </div>
+                <hr>
+                <div class="card-body">
+                  <form class="form form-horizontal" action="/profile/update" method="POST" id="profile" enctype="multipart/form-data">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="profile-widget-header text-center">
+                          <img src="/uploads/<%= adminData.image %>" onerror="this.src='../../../app-assets/images/portrait/small/avatar-s-11.jpg'" alt="Image" class="img-thumbnail" name="profile_image" id="profile_image">
+
+                          <input type="file" id="imgInp" name="image" />
+                          <label for="imgInp" style="cursor: pointer;">
+                            <!-- <span class="fe fe-24 fe-camera"></span> -->
+                            <i class="fe fe-24 camera_icon" data-feather='camera'></i>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-8" style="margin-top: 17px;">
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="name">Name</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="name" class="form-control" name="name" value="<%= adminData.name %>" maxlength="60">
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="email">Email</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="email" id="email" class="form-control" name="email" value="<%= adminData.email %>" disabled>
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="mobile">Mobile</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="number" id="mobile" class="form-control" name="mobile" value="<%= adminData.mobile %>" maxlength="15">
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="location">Location</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="location" class="form-control" name="location" value="<%= adminData.location %>">
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <label class="col-form-label col-sm-2 new_lable" for="start-time">Available</label>
+
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="start-time">From</label>
+                          </div>
+                          <div class="col-sm-3">
+                            <input type="time" id="start-time" class="form-control" name="start_time" value="<%= timing?.start_time %>" required>
+                          </div>
+
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="end-time">To</label>
+                          </div>
+                          <div class="col-sm-3">
+                            <input type="time" id="end-time" class="form-control" name="end_time" value="<%= timing?.end_time %>" required>
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row justify-content-center">
+                          <div class="col-sm-4 text-md-end text-center">
+                            <button type="submit" class="btn btn-primary waves-effect waves-float waves-light">Update</button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+  <%- include('../common/footer') %>
+
+</body>
+<!-- END: Body-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  $(document).ready(function() {
+
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space please and don't leave it empty");
+
+    $('#profile').validate({
+      rules: {
+        name: {
+          required: true,
+          noSpace: true,
+          maxlength: 60
+        },
+        mobile: {
+          required: true,
+          noSpace: true,
+          maxlength: 15
+        },
+
+        location: {
+          required: true,
+          noSpace: true
+        }
+      },
+
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
+  });
+</script>
+
+
+<script>
+  $(window).on('load', function() {
+    if (feather) {
+      feather.replace({
+        width: 14,
+        height: 14
+      });
+    }
+  })
+</script>
+
+<script>
+  // for preview of image
+  imgInp.onchange = evt => {
+    const [file] = imgInp.files
+    if (file) {
+      profile_image.src = URL.createObjectURL(file)
+    }
+  }
+</script>
+
+</html>

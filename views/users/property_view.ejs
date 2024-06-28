@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+
+    .new_lable {
+      color: black;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 1px;
+    }
+
+    .image_center {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+
+      </div>
+      <div class="content-body">
+
+        <section id="multiple-column-form">
+          <div class="row">
+            <div class="col-md-12 col-12">
+              <div class="card-body">
+                <section id="basic-horizontal-layouts">
+                  <div class="row justify-content-center">
+                    <div class="col-md-10 col-12 ">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">Property Details</h4>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                          <form class="form form-vertical">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="first-name-vertical">Title</label>
+                                  <input type="text" id="first-name-vertical" class="form-control" name="fname" value="<%= list.title %>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="email-id-vertical">Property Type</label>
+                                  <input type="email" id="email-id-vertical" class="form-control" name="email-id" value="<%= list.property_type %>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="contact-info-vertical">Location</label>
+                                  <input type="text" id="contact-info-vertical" class="form-control" name="contact" value="<%= list.location %> <%= list.mobile %>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="password-vertical">Area</label>
+                                  <input type="text" id="password-vertical" class="form-control" name="contact" value="<%= list.area %>" disabled>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable" for="password-vertical">Description</label>
+                                  <textarea name="" id="" cols="30" rows="10" class="form-control" disabled> <%= list.description %></textarea>
+                                </div>
+                              </div>
+
+                              <div class="col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable mb-1 for="password-vertical">Property Images</label>
+                                  <br>
+                                  <% list.property_images.forEach((imageArray) => { %>
+                                  <img class="img-rounded" style="margin-right: 0.5rem;" onerror="this.src='/app-assets/images/b.jpg'" src="/uploads/<%= imageArray.image %>" alt="" srcset="" height="150" width="150">
+                                  <% }); %>
+                                </div>
+                              </div>
+                              
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+  <%- include('../common/footer') %>
+
+</body>
+<!-- END: Body-->
+<script>
+  $(window).on('load', function() {
+    if (feather) {
+      feather.replace({
+        width: 14,
+        height: 14
+      });
+    }
+  })
+</script>
+
+
+</html>

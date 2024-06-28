@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    .new_lable {
+      color: black;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 1px;
+    }
+
+    .crossBtn {
+      margin-left: 6px;
+      border-radius: 50%;
+      padding: 3px !important;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+
+      </div>
+      <div class="content-body">
+
+        <section id="multiple-column-form">
+          <div class="row">
+            <div class="col-md-12 col-12">
+              <div class="card-body">
+                <section id="basic-horizontal-layouts">
+                  <div class="row justify-content-center">
+                    <!-- First Card: Property Details -->
+                    <div class="col-md-12 col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4 class="card-title">Ratings</h4>
+                        </div>
+                        <hr>
+                        <div class="card-body">
+                          <form class="form form-vertical">
+                            <div class="row">
+                              <% if(getReview?.rating){%>
+                              <div class="col-md-6 col-12">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable mb-1" for="first-name-vertical">Rating</label>
+                                  <br>
+                                  <% for(let i=1 ; i<= getReview?.rating; i++){ %>
+                                  <img src="/app-assets/images/star.png" title="Rating" alt="Icon" class="icon-img" height="20px">
+                                  <% } %>
+                                </div>
+                              </div>
+                              <div class="col-md-12 col-12 mb-1">
+                                <div class="mb-1">
+                                  <label class="new_lable new_lable mb-1" for="password-vertical">Description</label>
+                                  <textarea name="" id="" cols="30" rows="10" class="form-control" style="width: 100%;" disabled><%= getReview?.description %></textarea>
+                                </div>
+                              </div>
+                              <%}else{%>
+                              <span class="text-center">No ratings</span>
+                              <%} %>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </section>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+  <%- include('../common/footer') %>
+
+</body>
+<!-- END: Body-->
+<script>
+  $(window).on('load', function() {
+    if (feather) {
+      feather.replace({
+        width: 14,
+        height: 14
+      });
+    }
+  })
+</script>
+
+<script>
+  function removeFile(id) {
+
+    $.ajax({
+      url: '/remove-file',
+      type: 'post',
+      data: {
+        id: id
+      },
+
+      success: function(data) {
+        window.location.reload();
+      }
+    })
+
+  }
+</script>
+
+<script>
+  function uploadFile(id) {
+    const fileInput = document.getElementById('service_file');
+
+    // Check if any file is selected
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const formData = new FormData();
+
+      formData.append('docFile', file);
+      formData.append('id', id);
+
+      $.ajax({
+        url: '/upload-doc',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          window.location.reload();
+        },
+        error: function(error) {
+          console.error('Error uploading file:', error);
+        }
+      });
+    } else {
+      const errorMessage = document.getElementById('fileErrorMessage_' + id);
+      errorMessage.textContent = 'Please select a file.';
+    }
+  }
+</script>
+
+
+</html>

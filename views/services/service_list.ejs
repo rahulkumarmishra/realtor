@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    th,
+    td {
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+      </div>
+      <div class="content-body">
+        <div class="row" id="table-head">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Services</h4>
+                <a href="/service/add" class="btn btn-primary float-right" title="Edit Profile">
+                  Add
+                </a>
+              </div>
+              <hr>
+              <div class="table-responsive">
+                <table class="table" id="musicTable">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Title</th>
+                      <th>Price ($)</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let i=1 %>
+                    <% for(let j in service){%>
+                    <tr>
+                      <td>
+                        <%= i++ %>
+                      </td>
+                      <td>
+                        <%= service[j]?.service_name %>
+                      </td>
+                      <td><%= service[j]?.price %></td>
+                      <td>
+                        <div class="d-flex flex-column">
+                          <div class="form-check form-check-primary form-switch">
+                            <input type="checkbox" class="form-check-input" onclick="status(this)" id="<%= service[j].id %>" <%= service[j].status=='1'? 'checked':'' %>>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <a href="/service/edit/<%= service[j].id %>" class="btn btn-primary" title="Edit"><i data-feather='edit'></i></a>
+                        <a onclick="confirmDelete('<%= service[j].id %>')" class="btn btn-danger" title="Delete"><i data-feather='trash-2'></i>
+                      </td>
+                    </tr>
+                    <%}%>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sidenav-overlay"></div>
+      <div class="drag-target"></div>
+      <%- include('../common/footer') %>
+                    <script>
+                      $(window).on('load', function() {
+                        if (feather) {
+                          feather.replace({
+                            width: 14,
+                            height: 14
+                          });
+                        }
+                      })
+                    </script>
+</body>
+<!-- END: Body-->
+<script>
+  $(document).ready(function() {
+    $('#musicTable').DataTable();
+  });
+</script>
+
+<script>
+  function confirmDelete(id) {
+    // alert(id)
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/service/delete/:id",
+          type: 'post',
+          data: {
+            id: id
+          },
+          success: function(result) {
+
+          }
+
+
+        });
+
+
+        swalWithBootstrapButtons.fire(
+          'Deleted!',
+          'service has been deleted.',
+          'success'
+        ).then(() => {
+          location.reload();
+        })
+      } else if (
+
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'This service is safe :)',
+          'error'
+        )
+      }
+    })
+
+  }
+</script>
+
+<script>
+  const status = (val) => {
+    let id = val.id;
+    console.log(val.checked);
+    if (val.checked == true) {
+      var status = 1;
+    } else {
+      status = 0;
+    }
+
+    $.ajax({
+      type: 'post',
+      url: '/service-status',
+      data: {
+        status: status,
+        id: val.id
+      },
+
+      success: function(data) {
+        if (data) {
+          val.checked == false
+        } else {
+          val.checked == true
+        }
+        window.location.reload();
+      }
+    })
+  }
+</script>
+
+</html>

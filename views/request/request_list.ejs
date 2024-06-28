@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    th,
+    td {
+      white-space: nowrap;
+    }
+
+    .sel {
+      min-width: 110px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+      </div>
+      <div class="content-body">
+        <div class="row" id="table-head">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Request List</h4>
+              </div>
+              <hr>
+              <div class="table-responsive">
+                <table class="table" id="musicTable">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>S.No.</th>
+                      <th>User</th>
+                      <th>Property Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Total Amount ($)</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let i=1 %>
+                    <% for(let j in requestList){%>
+                    <tr>
+                      <td><%= i++ %></td>
+                      <td><%= requestList[j]?.user?.name %></td>
+                      <td><%= requestList[j]?.property?.title %></td>
+                      <td><%= requestList[j]?.date %></td>
+                      <td><%- moment(requestList[j].time, 'HH:mm:ss', true).format('hh:mm A') %></td>
+                      <td><%= requestList[j]?.total_amount %></td>
+                      <td>
+                        <select class="form-select sel" onchange="changeStatus('<%= requestList[j]?.user?.id %>','<%= requestList[j]?.id %>', this)">
+                          <option value="0" <%- requestList[j]?.status == 0 ? 'selected' : '' %>>Pending</option>
+                          <option value="1" <%- requestList[j]?.status == 1 ? 'selected' : '' %>>Accepted</option>
+                          <option value="2" <%- requestList[j]?.status == 2 ? 'selected' : '' %>>Rejected</option>
+                          <option value="3" <%- requestList[j]?.status == 3 ? 'selected' : '' %>>Completed</option>
+                        </select>
+                      </td>
+                      <td>
+                        <a href="/request/view/<%= requestList[j].id %>" class="btn btn-primary" title="View"><i data-feather='eye'></i></a>
+                        <a href="/rating/<%= requestList[j].id %>" class="btn btn-primary" title="Rating"><i data-feather='star'></i></a>
+                      </td>
+                    </tr>
+                    <%}%>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sidenav-overlay"></div>
+      <div class="drag-target"></div>
+      <%- include('../common/footer') %>
+                    <script>
+                      $(window).on('load', function() {
+                        if (feather) {
+                          feather.replace({
+                            width: 14,
+                            height: 14
+                          });
+                        }
+                      })
+                    </script>
+</body>
+<!-- END: Body-->
+<script>
+  $(document).ready(function() {
+    $('#musicTable').DataTable();
+  });
+</script>
+
+<script>
+  function confirmDelete(id) {
+    // alert(id)
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      // text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "/requestList/delete/:id",
+          type: 'post',
+          data: {
+            id: id
+          },
+          success: function(result) {
+
+          }
+
+
+        });
+
+
+        swalWithBootstrapButtons.fire(
+          'Deleted!',
+          'requestList has been deleted.',
+          'success'
+        ).then(() => {
+          location.reload();
+        })
+      } else if (
+
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'This requestList is safe :)',
+          'error'
+        )
+      }
+    })
+
+  }
+</script>
+
+<script>
+  function changeStatus(id, requestId, selectedOption) {
+    const selectedValue = selectedOption.value;
+
+    $.ajax({
+      url: '/request-status',
+      type: 'post',
+      data: {
+        id: id,
+        requestId: requestId,
+        selectedValue: selectedValue
+      },
+
+      success: function(data) {
+        window.location.reload();
+      }
+    })
+  }
+</script>
+
+</html>

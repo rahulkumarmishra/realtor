@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    th,
+    td {
+      white-space: nowrap;
+    }
+
+    .h5_class {
+      font-size: 1.5rem;
+      margin-left: 35px;
+      font-weight: 900;
+    }
+
+    .filterSelect {
+      width: 35vh !important;
+      margin-right: 41px !important;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+      </div>
+      <div class="content-body">
+        <div class="row" id="table-head">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Earnings</h4>
+              </div>
+
+              <div class="row d-flex align-items-end px-2">
+                <div class="col-md-4 col-6">
+                  <label for="fromDate">From</label>
+                  <input type="date" id="fromDate" value="" name="fromDate" class="form-control" style="margin-right: 10px;">
+                </div>
+
+                <div class="col-md-4 col-6">
+                  <label for="toDate">To</label>
+                  <input type="date" id="toDate" value="" name="toDate" class="form-control" style="margin-right: 10px;">
+                </div>
+
+                <div class="col-md-3 col-12 mt-1 mt-md-0  ">
+                  <button type="submit" class="btn btn-primary" onclick="dateFilter()">Apply</button>
+                  <a href="/earning/list"><button class="btn btn-secondary ms-1">Reset</button></a>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6">
+                  <h5 class="h5_class">Total Earning: <span class="span_class" id="earning">$<%= totalAmount %></span></h5>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center justify-content-end">
+                    <label for="earningFilter" class="me-2">Filter</label>
+                    <select id="earningFilter" class="form-select filterSelect" onchange="dateFilter()">
+                      <option value=" " selected disabled> -- Select -- </option>
+                      <option value="1">Weekly</option>
+                      <option value="2">Monthly</option>
+                      <option value="3">Yearly</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table" id="musicTable">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>S.No.</th>
+                      <th>User</th>
+                      <th>Property Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Total Amount ($)</th>
+                      <!-- <th>Action</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% let i=1 %>
+                    <% for(let j in requestList){%>
+                    <tr>
+                      <td>
+                        <%= i++ %>
+                      </td>
+                      <td>
+                        <%= requestList[j]?.user?.name %>
+                      </td>
+                      <td><%= requestList[j]?.property?.title %></td>
+                      <td><%= requestList[j]?.date %></td>
+                      <td><%- moment(requestList[j].time, 'HH:mm:ss', true).format('hh:mm A') %></td>
+                      <td><%= requestList[j]?.total_amount %></td>
+                      <!-- <td>
+                        <a href="/request/view/<%= requestList[j].id %>" class="btn btn-primary" title="View"><i data-feather='eye'></i></a>
+                      </td> -->
+                    </tr>
+                    <%}%>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sidenav-overlay"></div>
+      <div class="drag-target"></div>
+      <%- include('../common/footer') %>
+                    <script>
+                      $(window).on('load', function() {
+                        if (feather) {
+                          feather.replace({
+                            width: 14,
+                            height: 14
+                          });
+                        }
+                      })
+                    </script>
+</body>
+<!-- END: Body-->
+<script>
+  $(document).ready(function() {
+    $('#musicTable').DataTable();
+  });
+</script>
+
+<script>
+  const fromDateInput = document.getElementById("fromDate");
+  const toDateInput = document.getElementById("toDate");
+
+  fromDateInput.addEventListener('change', () => {
+    const fromDateValue = fromDateInput.value;
+    document.getElementById("toDate").min = fromDateValue;
+  })
+</script>
+
+<script>
+  function dateFilter() {
+    let fromDate = document.getElementById('fromDate');
+    let toDate = document.getElementById('toDate');
+    let total = document.getElementById('earning');
+    var totalEarning = total.textContent;
+
+
+    let fromDateValue = fromDate.value;
+    let toDateValue = toDate.value;
+
+    let filterDD = document.getElementById('earningFilter').value;
+
+    if (filterDD == 1) {
+      const currentDate = new Date();
+      const seventhDate = new Date();
+      seventhDate.setDate(currentDate.getDate() + 7);
+
+      fromDateValue = new Date().toISOString().split('T')[0];
+      toDateValue = seventhDate.toISOString().split('T')[0];
+    }
+
+    if (filterDD == 2) {
+      const currentDate = new Date();
+      const seventhDate = new Date();
+      seventhDate.setDate(currentDate.getDate() + 30);
+
+      fromDateValue = new Date().toISOString().split('T')[0];
+      toDateValue = seventhDate.toISOString().split('T')[0];
+    }
+
+    if (filterDD == 3) {
+      const currentDate = new Date();
+      const seventhDate = new Date();
+      seventhDate.setDate(currentDate.getDate() + 365);
+
+      fromDateValue = new Date().toISOString().split('T')[0];
+      toDateValue = seventhDate.toISOString().split('T')[0];
+    }
+
+    $.ajax({
+      url: '/filter-earning',
+      type: 'POST',
+      data: {
+        fromDate: fromDateValue,
+        toDate: toDateValue
+      },
+
+      success: function(response) {
+
+        const filterAmount = response.filterAmount;
+        const totalAmount = response.totalAmount;
+
+        let totalEarning = document.getElementById('earning');
+        totalEarning.textContent = `$${totalAmount}`;
+
+        let tbody = $('#musicTable tbody');
+        tbody.empty();
+
+        if (filterAmount && filterAmount.length > 0) {
+          let count = 1;
+          for (let i in filterAmount) {
+            tbody.append(
+              `<tr>
+                <td class="align-middle">${count}</td>
+                <td>${filterAmount[i]?.user?.name}</td>
+                <td>${filterAmount[i]?.property?.title}</td>
+                <td>${filterAmount[i]?.date}</td>
+                <td>${moment(filterAmount[i]?.time, 'HH:mm:ss', true).format('hh:mm A')}</td>
+                <td>${filterAmount[i]?.total_amount}</td>
+                </tr>`)
+            count++
+          }
+        } else {
+          tbody.html('<tr><td colspan="6" style="text-align: center;" >No records available</td></tr>');
+        }
+      }
+    })
+  }
+</script>
+
+</html>

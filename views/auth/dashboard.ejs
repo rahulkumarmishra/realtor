@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <style>
+    .card {
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 13px 0 #ddd;
+      transition: all 0.3s ease-in-out, background 0s, color 0s, border-color 0s;
+      border-radius: 3%;
+    }
+
+    #chartId {
+      height: 400px !important;
+    }
+
+    .card-header {
+      padding: 0.5rem 1.5rem;
+      margin-bottom: 0;
+      background-color: transparent;
+      border-bottom: 0 solid rgba(34, 41, 47, 0.125);
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+      </div>
+      <div class="content-body">
+        <section id="dashboard-analytics">
+          <!-- <div class="row match-height">
+                    </div> -->
+
+          <div class="row">
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card py-1" onclick="location.href='/users'" style="cursor: pointer;">
+                <div class="card-header">
+                  <div>
+                    <h2 class="fw-bolder mb-0"><%= userCount %></h2>
+                    <p class="card-text">Users</p>
+                  </div>
+                  <div class="avatar bg-light-primary p-50 m-0">
+                    <div class="avatar-content">
+                      <i data-feather="user"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card py-1" onclick="location.href='/service/list'" style="cursor: pointer;">
+                <div class="card-header">
+                  <div>
+                    <h2 class="fw-bolder mb-0"><%= services %></h2>
+                    <p class="card-text">Services</p>
+                  </div>
+                  <div class="avatar bg-light-primary p-50 m-0">
+                    <div class="avatar-content">
+                      <i data-feather="grid"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card py-1" onclick="location.href='/request/list'" style="cursor: pointer;">
+                <div class="card-header">
+                  <div>
+                    <h2 class="fw-bolder mb-0"><%= requests %></h2>
+                    <p class="card-text">Requests</p>
+                  </div>
+                  <div class="avatar bg-light-primary p-50 m-0">
+                    <div class="avatar-content">
+                      <i data-feather="align-justify"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-12">
+              <div class="card py-1" onclick="location.href='/earning/list'" style="cursor: pointer;">
+                <div class="card-header">
+                  <div>
+                    <h2 class="fw-bolder mb-0">$<%= totalAmount %></h2>
+                    <p class="card-text">Total Earnings</p>
+                  </div>
+                  <div class="avatar bg-light-primary p-50 m-0">
+                    <div class="avatar-content">
+                      <i data-feather="dollar-sign"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Polar Area Chart Starts -->
+          <div class="row">
+            <div class="col-lg-8 col-12 ">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Earnings</h4>
+                  <!-- <div class="dropdown">
+                    <i data-feather="more-vertical" class="cursor-pointer" role="button" id="heat-chart-dd" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </i>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="heat-chart-dd">
+                      <a class="dropdown-item" href="#">Weekly</a>
+                      <a class="dropdown-item" href="#">Monthly</a>
+                      <a class="dropdown-item" href="#">Yearly</a>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="card-body">
+                  <canvas id="chartId" class="polar-area-chart-ex chartjs" data-height="400"></canvas>
+                </div>
+              </div>
+            </div>
+            <!-- Polar Area Chart Ends-->
+
+            <!-- <div class="col-lg-4 col-12">
+              <div class="row">
+              
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                      <h4 style="color: #5e5873;">Users</h4>
+                      <div class="dropdown chart-dropdown">
+                        <button class="btn btn-sm border-0 dropdown-toggle px-50 waves-effect waves-float waves-light" type="button" id="dropdownItem2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Last 28 Days
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownItem2">
+                          <a class="dropdown-item" href="#">Last 28 Days</a>
+                          <a class="dropdown-item" href="#">Last Month</a>
+                          <a class="dropdown-item" href="#">Last Year</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body" style="position: relative;">
+                      <div id="product-order-chart" style="min-height: 180px;">
+                        <div id="apexchartsuwzkaude" class="apexcharts-canvas apexchartsuwzkaude apexcharts-theme-light" style="width: 257px; height: 303px;"><svg id="SvgjsSvg1309" width="257" height="303.7" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;">
+                            <g id="SvgjsG1311" class="apexcharts-inner apexcharts-graphical" transform="translate(-21, 0)">
+                              <defs id="SvgjsDefs1310">
+                                <clipPath id="gridRectMaskuwzkaude">
+                                  <rect id="SvgjsRect1313" width="307" height="325" x="-3" y="-1" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                                </clipPath>
+                                <clipPath id="gridRectMarkerMaskuwzkaude">
+                                  <rect id="SvgjsRect1314" width="305" height="327" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+                                </clipPath>
+                              </defs>
+                              <g id="SvgjsG1315" class="apexcharts-radialbar">
+                                <g id="SvgjsG1316">
+                                  <g id="SvgjsG1317" class="apexcharts-tracks">
+                                    <g id="SvgjsG1318" class="apexcharts-radialbar-track apexcharts-track" rel="1">
+                                      <path id="apexcharts-radialbarTrack-0" d="M 150.5 44.41951219512195 A 106.08048780487805 106.08048780487805 0 1 1 150.48148546225082 44.41951381082016" fill="none" fill-opacity="1" stroke="rgba(242,242,242,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="13.16585365853659" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 150.5 44.41951219512195 A 106.08048780487805 106.08048780487805 0 1 1 150.48148546225082 44.41951381082016"></path>
+                                    </g>
+                                    <g id="SvgjsG1320" class="apexcharts-radialbar-track apexcharts-track" rel="2">
+                                      <path id="apexcharts-radialbarTrack-1" d="M 150.5 72.58536585365854 A 77.91463414634146 77.91463414634146 0 1 1 150.48640133105562 72.58536704036628" fill="none" fill-opacity="1" stroke="rgba(242,242,242,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="13.16585365853659" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 150.5 72.58536585365854 A 77.91463414634146 77.91463414634146 0 1 1 150.48640133105562 72.58536704036628"></path>
+                                    </g>
+                                    <g id="SvgjsG1322" class="apexcharts-radialbar-track apexcharts-track" rel="3">
+                                      <path id="apexcharts-radialbarTrack-2" d="M 150.5 100.75121951219514 A 49.748780487804865 49.748780487804865 0 1 1 150.49131719986042 100.75122026991238" fill="none" fill-opacity="1" stroke="rgba(242,242,242,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="13.16585365853659" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 150.5 100.75121951219514 A 49.748780487804865 49.748780487804865 0 1 1 150.49131719986042 100.75122026991238"></path>
+                                    </g>
+                                  </g>
+                                  <g id="SvgjsG1324">
+                                    <g id="SvgjsG1329" class="apexcharts-series apexcharts-radial-series" seriesName="Total" rel="1" data:realIndex="0">
+                                      <path id="SvgjsPath1330" d="M 150.5 44.41951219512195 A 106.08048780487805 106.08048780487805 0 1 1 150.48148546225082 44.41951381082016" fill="none" fill-opacity="0.85" stroke="rgba(115,103,240,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="13.16585365853659" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-0" data:angle="359.99" data:value="100" index="0" j="0" data:pathOrig="M 150.5 44.41951219512195 A 106.08048780487805 106.08048780487805 0 1 1 150.48148546225082 44.41951381082016"></path>
+                                    </g>
+                                    <g id="SvgjsG1331" class="apexcharts-series apexcharts-radial-series" seriesName="Active" rel="2" data:realIndex="1">
+                                      <path id="SvgjsPath1332" d="M 150.5 72.58536585365854 A 77.91463414634146 77.91463414634146 0 1 1 76.39877948036909 126.4230539382739" fill="none" fill-opacity="0.85" stroke="rgba(255,159,67,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="13.16585365853659" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-1" data:angle="288" data:value="80" index="0" j="1" data:pathOrig="M 150.5 72.58536585365854 A 77.91463414634146 77.91463414634146 0 1 1 76.39877948036909 126.4230539382739"></path>
+                                    </g>
+                                    <g id="SvgjsG1333" class="apexcharts-series apexcharts-radial-series" seriesName="Inactive" rel="3" data:realIndex="2">
+                                      <path id="SvgjsPath1334" d="M 150.5 100.75121951219514 A 49.748780487804865 49.748780487804865 0 0 1 197.813901860664 135.1267813798395" fill="none" fill-opacity="0.85" stroke="rgba(234,84,85,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="13.16585365853659" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-2" data:angle="72" data:value="20" index="0" j="2" data:pathOrig="M 150.5 100.75121951219514 A 49.748780487804865 49.748780487804865 0 0 1 197.813901860664 135.1267813798395"></path>
+                                    </g>
+                                    <circle id="SvgjsCircle1325" r="38.16585365853657" cx="150.5" cy="150.5" class="apexcharts-radialbar-hollow" fill="transparent"></circle>
+                                    <g id="SvgjsG1326" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)" style="opacity: 1;"><text id="SvgjsText1327" font-family="Helvetica, Arial, sans-serif" x="150.5" y="150.5" text-anchor="middle" dominant-baseline="auto" font-size="1.286rem" font-weight="500" fill="#373d3f" class="apexcharts-text apexcharts-datalabel-label" style="font-family: Helvetica, Arial, sans-serif;">Total</text><text id="SvgjsText1328" font-family="Helvetica, Arial, sans-serif" x="150.5" y="171.5" text-anchor="middle" dominant-baseline="auto" font-size="1rem" font-weight="500" fill="#373d3f" class="apexcharts-text apexcharts-datalabel-value" style="font-family: Helvetica, Arial, sans-serif;">230</text></g>
+                                  </g>
+                                </g>
+                              </g>
+                              <line id="SvgjsLine1335" x1="0" y1="0" x2="301" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line>
+                              <line id="SvgjsLine1336" x1="0" y1="0" x2="301" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line>
+                            </g>
+                            <g id="SvgjsG1312" class="apexcharts-annotations"></g>
+                          </svg>
+                          <div class="apexcharts-legend"></div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between mb-1">
+                        <div class="d-flex align-items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle font-medium-1 text-primary">
+                            <circle cx="12" cy="12" r="10"></circle>
+                          </svg>
+                          <span class="fw-bold ms-75">Total</span>
+                        </div>
+                        <span>230</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-1">
+                        <div class="d-flex align-items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle font-medium-1 text-warning">
+                            <circle cx="12" cy="12" r="10"></circle>
+                          </svg>
+                          <span class="fw-bold ms-75">Active</span>
+                        </div>
+                        <span>185</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle font-medium-1 text-danger">
+                            <circle cx="12" cy="12" r="10"></circle>
+                          </svg>
+                          <span class="fw-bold ms-75">Inactive</span>
+                        </div>
+                        <span>45</span>
+                      </div>
+                      <div class="resize-triggers">
+                        <div class="expand-trigger">
+                          <div style="width: 308px; height: 414px;"></div>
+                        </div>
+                        <div class="contract-trigger"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
+              </div>
+            </div> -->
+            <div class="col-lg-4 col-12">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <h4 style="color: #5e5873; margin: 15px 0 0 15px;">Users</h4>
+                    <div style="position: relative;">
+                      <div id="chart" style="min-height: 180px;"></div>
+                    </div>
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle font-medium-1 text-primary">
+                          <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        <span class="fw-bold ms-75">Total</span>
+                      </div>
+                      <span><%= userCount %></span>
+                    </div>
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle font-medium-1 text-warning">
+                          <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        <span class="fw-bold ms-75">Active</span>
+                      </div>
+                      <span><%= activeUser ? activeUser : 0  %></span>
+                    </div>
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle font-medium-1 text-danger">
+                          <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        <span class="fw-bold ms-75">Inactive</span>
+                      </div>
+                      <span><%= inActiveUser ? inActiveUser : 0  %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+      </div>
+      </section>
+      <!-- Dashboard Analytics end -->
+    </div>
+  </div>
+  </div>
+  <!-- END: Content-->
+
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+
+  <!-- BEGIN: Footer-->
+
+  <%- include('../common/footer') %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <!-- END: Footer-->
+  <script>
+    $(window).on('load', function() {
+      if (feather) {
+        feather.replace({
+          width: 14,
+          height: 14
+        });
+      }
+    })
+  </script>
+
+
+  <script>
+    function generateMonthLabels() {
+      const monthLabels = [];
+
+      for (let month = 0; month < 12; month++) {
+        const date = new Date(2000, month, 1); // Using a fixed year (2000) for consistency
+        const monthName = date.toLocaleString('default', {
+          month: 'long'
+        });
+        monthLabels.push(monthName);
+      }
+
+      return monthLabels;
+    }
+
+    const allMonths = generateMonthLabels();
+
+    var chrt = document.getElementById("chartId").getContext("2d");
+    var chartId = new Chart(chrt, {
+      type: 'bar',
+      data: {
+        labels: allMonths,
+        datasets: [{
+          label: "Earnings ($)",
+          data: [20, 25, 35, 45, 55, 70, 80, 30, 100, 115, 125, 140],
+          // data: '<%- totalEarnings.map(entry => entry.totalEarnings) %>',
+          backgroundColor: '#94decf',
+        }],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true,
+          },
+          y: {
+            grid: {
+              display: false,
+            }
+          }
+        }
+      }
+    });
+
+
+    chartId.data.datasets.forEach(function(dataset) {
+      dataset.barPercentage = 0.8; // Adjust bar width as a percentage
+      dataset.categoryPercentage = 0.6; // Adjust gap between bars as a percentage
+    });
+
+    chartId.update();
+  </script>
+
+  <script>
+    var options = {
+      series: [100, 65, 35],
+      chart: {
+        height: 350,
+        type: 'radialBar',
+      },
+      plotOptions: {
+        radialBar: {
+          hollow: {
+            size: '65%',
+          },
+          dataLabels: {
+            name: {
+              fontSize: '22px',
+            },
+            value: {
+              fontSize: '16px',
+            },
+            total: {
+              show: true,
+              label: 'Total',
+              formatter: function(w) {
+                return '<%- userCount %>'
+              }
+            }
+          }
+        }
+      },
+      labels: ['Total', 'Active', 'Inactive'],
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  </script>
+
+</body>
+<!-- END: Body-->
+
+</html>

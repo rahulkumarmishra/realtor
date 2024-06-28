@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+  <%- include('../common/header') %>
+  <style>
+    .img-thumbnail {
+      padding: 0.25rem;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 50%;
+      max-width: 100%;
+      height: 17rem;
+      width: 18rem;
+    }
+
+    .new_lable {
+      color: black;
+      font-size: 13px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+  <!-- BEGIN: Header-->
+  <%- include('../common/navbar') %>
+  <!-- BEGIN: Main Menu-->
+  <%- include('../common/sidebar') %>
+  <!-- END: Main Menu-->
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+      <div class="content-header row">
+
+      </div>
+      <div class="content-body">
+
+        <section id="multiple-column-form">
+          <div class="row">
+
+            <div class="col-md-12 col-12">
+              <div class="card">
+                <div class="card-header">
+                  <!-- <a href="/back-page" class="btn btn-primary" title="Go Back">
+                    <i class="feather icon-arrow-left"></i>
+                  </a> -->
+                  <h4 class="card-title">Admin Profile</h4>
+                  <a href="/profile/edit" class="btn btn-primary float-right" title="Edit Profile">
+                    Edit
+                  </a>
+                </div>
+                <hr>
+                <div class="card-body">
+                  <form class="form form-horizontal">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="profile-widget-header text-center">
+                          <img src="/uploads/<%= adminData.image %>" onerror="this.src='../../../app-assets/images/portrait/small/avatar-s-11.jpg'" alt="Image" class="img-thumbnail">
+                        </div>
+                      </div>
+                      <div class="col-md-8" style="margin-top: 17px;">
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="first-name">Name</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="first-name" class="form-control" name="fname" value="<%= adminData.name %>" disabled>
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="first-name">Email</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="first-name" class="form-control" name="fname" value="<%= adminData.email %>" disabled>
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="first-name">Mobile</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="first-name" class="form-control" name="fname" value="<%= adminData.mobile %>" disabled>
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="first-name">Location</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" id="first-name" class="form-control" name="fname" value="<%= adminData.location %>" disabled>
+                          </div>
+                        </div>
+
+                        <div class="mb-1 row">
+                          <label class="col-form-label col-sm-2 new_lable" for="start-time">Available</label>
+
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="start-time">From</label>
+                          </div>
+                          <div class="col-sm-3">
+                            <input type="time" id="start-time" class="form-control" name="start_time" value="<%= timing?.start_time %>" readonly>
+                          </div>
+
+                          <div class="col-sm-2">
+                            <label class="col-form-label new_lable" for="end-time">To</label>
+                          </div>
+                          <div class="col-sm-3">
+                            <input type="time" id="end-time" class="form-control" name="end_time" value="<%= timing?.end_time %>" readonly>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+  <%- include('../common/footer') %>
+
+</body>
+<!-- END: Body-->
+<script>
+  $(window).on('load', function() {
+    if (feather) {
+      feather.replace({
+        width: 14,
+        height: 14
+      });
+    }
+  })
+</script>
+
+</html>

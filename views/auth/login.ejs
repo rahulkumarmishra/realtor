@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+  <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+  <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
+  <meta name="author" content="PIXINVENT">
+  <title>Login &mdash; REALTOR 360</title>
+  <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
+  <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+
+  <!-- BEGIN: Vendor CSS-->
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+  <!-- END: Vendor CSS-->
+
+  <!-- BEGIN: Theme CSS-->
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+
+  <!-- BEGIN: Page CSS-->
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
+  <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-auth.css">
+  <!-- END: Page CSS-->
+
+  <!-- BEGIN: Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+  <!-- END: Custom CSS-->
+
+  <style>
+    .alert-success {
+      padding: 0 0 0 16px;
+      background: linear-gradient(118deg, #000000, #ddd) !important;
+      box-shadow: 0 0 10px 1px #ddd;
+      color: #ffffff !important;
+      width: 50vh;
+      height: 10vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-body {
+      background-color: #7b5eef4f;
+      border: 1px solid black;
+      border-radius: 3%;
+      backdrop-filter: blur(1px);
+    }
+
+    .jqval-error {
+      color: red;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    div#password-error {
+      position: absolute;
+      bottom: -19px;
+      font-size: 12px;
+    }
+
+    body {
+      background: url('/app-assets/images/bglogin.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 0 !important;
+    }
+
+    .app-content.content {
+      margin-left: 0 !important;
+    }
+
+    .btn {
+      padding: 9px 12px !important;
+    }
+
+    .msg1 {
+      display: none;
+      position: absolute;
+      z-index: 9999;
+      color: white;
+      background-color: #000000;
+      right: 10px;
+      top: 10px;
+      padding: 23px 0 0 10px !important;
+    }
+  </style>
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static   menu-collapsed" data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">
+  <% if(msg !='' ) { %>
+  <div class="alert alert-success msg" style="position: absolute; z-index: 9999; color:white; background-color: #000000; right: 10px; top: 10px;">
+    <span style="font-size: 16px;">
+      <%= msg %>
+    </span>
+  </div>
+  <% } %>
+
+  <!-- <div id="jmsg" class="alert alert-success msg" style="display: none; position: absolute; z-index: 9999; color:white; background-color: #195780; right: 10px; top: 10px;">
+    <span style="font-size: 16px;"></span>
+  </div> -->
+
+  <span id="formerror" class="alert alert-success msg msg1"></span>
+  <!-- BEGIN: Content-->
+  <div class="app-content content ">
+    <div class="content-wrapper">
+      <div class="content-body">
+        <div class="auth-wrapper auth-v1 px-2">
+          <div class="auth-inner bg-transparent">
+            <!-- Login v1 -->
+            <div class="card mb-0 bg-transparent">
+              <div class="card-body" style="background-color: #0000004f;">
+                <a href="#" class="brand-logo">
+                  <img src="/app-assets/images/logo.png" alt="" srcset="" style="width: 200px;">
+                </a>
+                <form id="loginform" method="post" action="/login_post">
+                  <div class="mb-1">
+                    <label for="email" class="form-label text-white">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus required />
+                  </div>
+
+                  <div class="mb-1">
+                    <div class="d-flex justify-content-between">
+                      <label class="form-label text-white" for="login-password">Password</label>
+                    </div>
+                    <div class="input-group input-group-merge form-password-toggle">
+                      <input type="password" class="form-control form-control-merge" id="password" name="password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="login-password" required />
+                      <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary w-100 mt-2" id="login-button" tabindex="4">Login</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- END: Content-->
+
+
+  <!-- BEGIN: Vendor JS-->
+  <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+  <!-- BEGIN Vendor JS-->
+
+  <!-- BEGIN: Page Vendor JS-->
+  <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+  <!-- END: Page Vendor JS-->
+
+  <!-- BEGIN: Theme JS-->
+  <script src="../../../app-assets/js/core/app-menu.js"></script>
+  <script src="../../../app-assets/js/core/app.js"></script>
+  <!-- END: Theme JS-->
+
+  <!-- BEGIN: Page JS-->
+  <script src="../../../app-assets/js/scripts/pages/page-auth-login.js"></script>
+  <!-- END: Page JS-->
+
+  <script>
+    $(window).on('load', function() {
+      if (feather) {
+        feather.replace({
+          width: 14,
+          height: 14
+        });
+      }
+    })
+  </script>
+
+  <script>
+    setTimeout(function() {
+      $("div.msg").fadeOut();
+    }, 1000);
+  </script>
+</body>
+<!-- END: Body-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  $(document).ready(function() {
+
+    jQuery.validator.addMethod("noSpace", function(value, element) {
+      return value == '' || value.trim().length != 0;
+    }, "No space please and don't leave it empty");
+
+    $('#loginform').validate({
+      rules: {
+        email: {
+          required: true,
+          noSpace: true,
+        },
+        password: {
+          required: true,
+          noSpace: true,
+        }
+      },
+
+      errorElement: "div",
+      errorClass: "jqval-error",
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+        error.slideDown(400);
+        error.animate({
+          opacity: 1
+        }, {
+          queue: false,
+          duration: 700
+        });
+      },
+
+      submitHandler: function(form) {
+        var error = $(".assign_error_div").text();
+        if (!error) {
+          form.submit();
+        }
+      }
+    });
+  });
+</script>
+
+<!-- <script>
+  $(document).ready(function () {
+
+    $('#login-button').click(function (e) {
+
+      e.preventDefault();
+      if (!$("#loginform").valid()) {
+        return false;
+      }
+      var email = $('#email').val();
+      var password = $('#password').val();
+
+      var data = {
+        email: email,
+        password: password
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: '/login_post',
+        data: data,
+        dataType: 'json',
+        success: function (response) {
+
+          var jmsgDiv = $('#jmsg');
+
+          if (response.error) {
+            $('#formerror').css("display", "block");
+            $("#formerror").text(response.error)
+
+            setTimeout(function () {
+              $('#formerror').css("display", "none");
+            }, 1000);
+          } else if (response.success) {
+
+            window.location.href = '/dashboard';
+          }
+        }
+      });
+    });
+  });
+</script> -->
+
+</html>
